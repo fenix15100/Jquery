@@ -27,13 +27,13 @@ class ModelPDO {
 	 * Nom d'usuari
 	 * @var string 
 	 */
-	private $usuari = "aitor";
+	private $usuari = "root";
 	
 	/**
 	 * Contrasenya
 	 * @var string
 	 */
-	private $contrasenya = "123qwe";
+	private $contrasenya = "destino";
 	
 	/**
 	 * Desa el objecte amb la connexió per a controlar que només n'hi hagi una

@@ -1,7 +1,7 @@
 <?php
 
 require_once('lib/nusoap.php'); //include required class for build nnusoap web service server
-$wsdl = "http://localhost/namesws/server.php?wsdl";  // SOAP Server
+$wsdl = "http://localhost/Jquery/namesws/server.php?wsdl";  // SOAP Server
 
 try {
     $client = new soapclient($wsdl) or die("Error");   // Connect the SOAP server
