@@ -1,0 +1,63 @@
+<html>
+
+    <head>
+        <style>
+
+        </style>
+
+        <script src="jquery-3.2.1.js"></script>
+        <script>
+        
+        $(document).ready(function() {
+            
+            $.get("Ajaxphp.php",function(json){
+
+                console.log(json);
+                $("#nombres").css("width","300px");
+                $("#nombres").css("height","300px");
+                for(i=0;i<json.length;i++){
+                    $("#nombres").append(json[i].nombre+' ');
+                    $("#nombres").append(json[i].apellido+' ');
+                    $("#nombres").append("<br>");
+                    
+                    
+                   
+                    
+                }
+                
+               
+            });
+
+        
+        
+        
+         });
+        
+
+
+
+        
+        
+        </script>
+
+
+    </head>
+
+    <body>
+
+        <div id=nombres></div>
+            
+
+
+    </body>
+
+
+
+
+
+
+
+
+
+
+</html>

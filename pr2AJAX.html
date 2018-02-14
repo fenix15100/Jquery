@@ -1,0 +1,71 @@
+<html>
+
+    <head>
+        <style>
+
+        </style>
+
+        <script src="jquery-3.2.1.js"></script>
+        <script>
+        
+        $(document).ready(function() {
+
+            $("#campo").keypress(function(){
+
+               $("p").empty();
+                $.post("nombres.php",$("#campo").serialize(),function(hint){
+                    $("body").append("<p>"+hint+"</p>");
+                    
+
+
+
+
+              
+                
+                
+               
+            });
+
+
+
+
+            });
+            
+            
+
+        
+        
+        
+         });
+        
+
+
+
+        
+        
+        </script>
+
+
+    </head>
+
+    <body>
+
+    
+    <input id="campo" name="q" type="text"></input>
+
+
+       
+     
+            
+    </body>
+
+
+
+
+
+
+
+
+
+
+</html>
