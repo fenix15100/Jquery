@@ -1,0 +1,17 @@
+#btnPrevious, #btnNext {
+    display: none;
+}
+#btnNext {
+    position: absolute;
+    margin-left: 160px;
+}
+#btnPrevious {
+    position: absolute;
+    margin-left: 80px;
+}
+table {
+    text-align: center;
+}
+#inNames, #names {
+    display:none;
+}

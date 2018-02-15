@@ -22,6 +22,12 @@ class ModelPDO {
 	 * @var string
 	 */
 	private $db = "namesws";
+        
+        /**
+	 * Charset de la base de base de dades
+	 * @var string
+	 */
+	private $charset = "latin1";
 	
 	/**
 	 * Nom d'usuari
@@ -70,7 +76,7 @@ class ModelPDO {
 		$oDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		//Treballa amb UTF8
-		$oDB->query("SET NAMES utf8");
+		$oDB->query("SET NAMES {$this->charset}");
 
 		return $oDB;
 	}
