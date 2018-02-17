@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="cannabis@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.1">
+    <root id="1"/>
+    <schema id="2" parent="1" name="cannabis">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="information_schema"/>
+    <schema id="4" parent="1" name="mysql"/>
+    <schema id="5" parent="1" name="performance_schema"/>
+    <schema id="6" parent="1" name="phpmyadmin"/>
+    <schema id="7" parent="1" name="sakila"/>
+    <schema id="8" parent="1" name="symfony"/>
+    <schema id="9" parent="1" name="test"/>
+    <table id="10" parent="2" name="migration_versions"/>
+    <table id="11" parent="2" name="paises"/>
+    <table id="12" parent="2" name="tipos"/>
+    <table id="13" parent="2" name="variedades"/>
+    <column id="14" parent="10" name="version">
+      <Position>1</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="15" parent="10" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>version</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="16" parent="11" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="17" parent="11" name="pais">
+      <Position>2</Position>
+      <DataType>varchar(120)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="18" parent="11" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="19" parent="12" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="20" parent="12" name="tipo">
+      <Position>2</Position>
+      <DataType>enum(&apos;Hibrida_Mixta&apos;, &apos;Hibrida_Indica&apos;, &apos;Hibrida_Sativa&apos;, &apos;Sativa&apos;, &apos;Indica&apos;, &apos;Ruderalis&apos;, &apos;Legendaria&apos;)|0</DataType>
+    </column>
+    <key id="21" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="22" parent="13" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="23" parent="13" name="nombre">
+      <Position>2</Position>
+      <DataType>varchar(120)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="24" parent="13" name="tiempo_floracion">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="25" parent="13" name="interior">
+      <Position>4</Position>
+      <DataType>tinyint(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="13" name="exterior">
+      <Position>5</Position>
+      <DataType>tinyint(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="27" parent="13" name="thc">
+      <Position>6</Position>
+      <DataType>decimal(10,2)|0</DataType>
+    </column>
+    <column id="28" parent="13" name="cbd">
+      <Position>7</Position>
+      <DataType>decimal(10,2)|0</DataType>
+    </column>
+    <column id="29" parent="13" name="genetica">
+      <Position>8</Position>
+      <DataType>varchar(120)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="30" parent="13" name="id_tipo">
+      <Position>9</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="31" parent="13" name="id_pais">
+      <Position>10</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="32" parent="13" name="description">
+      <Position>11</Position>
+      <DataType>longtext|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="33" parent="13" name="file">
+      <Position>12</Position>
+      <DataType>varchar(150)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="34" parent="13" name="IDX_8AD7940FF57D32FD">
+      <ColNames>id_pais</ColNames>
+    </index>
+    <index id="35" parent="13" name="IDX_8AD7940FFB0D0145">
+      <ColNames>id_tipo</ColNames>
+    </index>
+    <key id="36" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="37" parent="13" name="FK_8AD7940FFB0D0145">
+      <ColNames>id_tipo</ColNames>
+      <RefSchemaName>cannabis</RefSchemaName>
+      <RefTableName>tipos</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="38" parent="13" name="FK_8AD7940FF57D32FD">
+      <ColNames>id_pais</ColNames>
+      <RefSchemaName>cannabis</RefSchemaName>
+      <RefTableName>paises</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>
