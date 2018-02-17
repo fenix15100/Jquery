@@ -16,12 +16,18 @@ class Paises
      */
     private $id;
 
+    /**
+     * @ORM\Column(type="string",length=2)
+     */
+    private $iso;
 
     /**
      *
      * @ORM\Column(type="string",length=120)
      */
     private $pais;
+
+
 
     /**
      * @return mixed
@@ -58,6 +64,23 @@ class Paises
         $this->pais = $pais;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIso()
+    {
+        return $this->iso;
+    }
+
+    /**
+     * @param mixed $iso
+     */
+    public function setIso($iso)
+    {
+        $this->iso = $iso;
+    }
+
 
 
 

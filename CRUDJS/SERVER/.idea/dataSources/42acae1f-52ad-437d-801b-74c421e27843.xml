@@ -33,109 +33,113 @@
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="17" parent="11" name="pais">
+    <column id="17" parent="11" name="iso">
       <Position>2</Position>
+      <DataType>varchar(2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="18" parent="11" name="pais">
+      <Position>3</Position>
       <DataType>varchar(120)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="18" parent="11" name="PRIMARY">
+    <key id="19" parent="11" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="19" parent="12" name="id">
+    <column id="20" parent="12" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="20" parent="12" name="tipo">
+    <column id="21" parent="12" name="tipo">
       <Position>2</Position>
       <DataType>enum(&apos;Hibrida_Mixta&apos;, &apos;Hibrida_Indica&apos;, &apos;Hibrida_Sativa&apos;, &apos;Sativa&apos;, &apos;Indica&apos;, &apos;Ruderalis&apos;, &apos;Legendaria&apos;)|0</DataType>
     </column>
-    <key id="21" parent="12" name="PRIMARY">
+    <key id="22" parent="12" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="22" parent="13" name="id">
+    <column id="23" parent="13" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="23" parent="13" name="nombre">
+    <column id="24" parent="13" name="id_tipo">
       <Position>2</Position>
-      <DataType>varchar(120)|0</DataType>
-      <NotNull>1</NotNull>
+      <DataType>int(11)|0</DataType>
     </column>
-    <column id="24" parent="13" name="tiempo_floracion">
+    <column id="25" parent="13" name="id_pais">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
     </column>
-    <column id="25" parent="13" name="interior">
+    <column id="26" parent="13" name="nombre">
       <Position>4</Position>
-      <DataType>tinyint(1)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="26" parent="13" name="exterior">
-      <Position>5</Position>
-      <DataType>tinyint(1)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="27" parent="13" name="thc">
-      <Position>6</Position>
-      <DataType>decimal(10,2)|0</DataType>
-    </column>
-    <column id="28" parent="13" name="cbd">
-      <Position>7</Position>
-      <DataType>decimal(10,2)|0</DataType>
-    </column>
-    <column id="29" parent="13" name="genetica">
-      <Position>8</Position>
       <DataType>varchar(120)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="30" parent="13" name="id_tipo">
+    <column id="27" parent="13" name="tiempo_floracion">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="28" parent="13" name="interior">
+      <Position>6</Position>
+      <DataType>tinyint(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="29" parent="13" name="exterior">
+      <Position>7</Position>
+      <DataType>tinyint(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="30" parent="13" name="thc">
+      <Position>8</Position>
+      <DataType>decimal(10,2)|0</DataType>
+    </column>
+    <column id="31" parent="13" name="cbd">
       <Position>9</Position>
-      <DataType>int(11)|0</DataType>
+      <DataType>decimal(10,2)|0</DataType>
     </column>
-    <column id="31" parent="13" name="id_pais">
+    <column id="32" parent="13" name="genetica">
       <Position>10</Position>
-      <DataType>int(11)|0</DataType>
+      <DataType>varchar(120)|0</DataType>
     </column>
-    <column id="32" parent="13" name="description">
+    <column id="33" parent="13" name="description">
       <Position>11</Position>
       <DataType>longtext|0</DataType>
-      <NotNull>1</NotNull>
     </column>
-    <column id="33" parent="13" name="file">
+    <column id="34" parent="13" name="file">
       <Position>12</Position>
       <DataType>varchar(150)|0</DataType>
-      <NotNull>1</NotNull>
     </column>
-    <index id="34" parent="13" name="IDX_8AD7940FF57D32FD">
+    <index id="35" parent="13" name="IDX_8AD7940FF57D32FD">
       <ColNames>id_pais</ColNames>
     </index>
-    <index id="35" parent="13" name="IDX_8AD7940FFB0D0145">
+    <index id="36" parent="13" name="IDX_8AD7940FFB0D0145">
       <ColNames>id_tipo</ColNames>
     </index>
-    <key id="36" parent="13" name="PRIMARY">
+    <key id="37" parent="13" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="37" parent="13" name="FK_8AD7940FFB0D0145">
+    <foreign-key id="38" parent="13" name="FK_8AD7940FFB0D0145">
       <ColNames>id_tipo</ColNames>
       <RefSchemaName>cannabis</RefSchemaName>
       <RefTableName>tipos</RefTableName>
       <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="38" parent="13" name="FK_8AD7940FF57D32FD">
+    <foreign-key id="39" parent="13" name="FK_8AD7940FF57D32FD">
       <ColNames>id_pais</ColNames>
       <RefSchemaName>cannabis</RefSchemaName>
       <RefTableName>paises</RefTableName>
       <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
   </database-model>
 </dataSource>

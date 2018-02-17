@@ -54,7 +54,7 @@ class Variedades
 
 
     /**
-     * @ORM\Column(type="string",length=120)
+     * @ORM\Column(type="string",length=120,nullable=true)
      */
     private $genetica;
 
@@ -65,7 +65,7 @@ class Variedades
 
     /**
      * @ORM\ManyToOne(targetEntity="Tipos")
-     * @ORM\JoinColumn(name="id_tipo", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_tipo", referencedColumnName="id",onDelete="CASCADE")
      */
     private $id_tipo;
 
@@ -77,19 +77,19 @@ class Variedades
 
     /**
      * @ORM\ManyToOne(targetEntity="Paises")
-     * @ORM\JoinColumn(name="id_pais", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id_pais", referencedColumnName="id",onDelete="CASCADE")
      */
     private $id_pais;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text",nullable=true)
      */
 
     private $description;
 
 
     /**
-     * @ORM\Column(type="string",length=150)
+     * @ORM\Column(type="string",length=150,nullable=true)
      */
     private $file;
 
