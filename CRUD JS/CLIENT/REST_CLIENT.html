@@ -1,0 +1,158 @@
+<html>
+
+    <head>
+        <title>Cannabis DB</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <script src="jquery-3.2.1.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
+        <style>
+
+           body{
+               width: 100%;
+               height: 100%;
+           }
+            .panel,.panel-info{
+                
+                margin: auto;
+                overflow: auto;
+            }
+
+            .jumbotron{
+                width: 100%;
+                height: 980px;
+
+            }
+
+            th{
+                text-align: center;
+            }
+
+            
+        
+        
+        
+        
+        </style>
+        <script>
+
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        </script>
+    </head>
+
+
+    <body>
+            <div class="jumbotron">
+
+                    <div class="panel panel-info">
+                            
+                            
+                        <div class="panel-heading">
+                            
+                            
+                        </div>
+
+                        <div class="table-responsive">
+                            <table id="lista" class="table table-hover table-condensed table-extra-condensed table-bordered" style="text-align:center">
+                                <thead>
+                                   
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>THC</th>
+                                        <th>CBD</th>
+                                        <th>Tipo</th>
+                                        <th>
+                                            <form id=buscarform class="form-inline my-2 my-lg-0">
+                                                <input name="buscar" class="form-control mr-sm-2" type="text" placeholder="Buscar">
+                                                
+                                            </form>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla">
+                                    <!-- generar dom dinamicamente con los campos y los botones "VER(Modal  con todos los datos)","UPDATE(Modal ajax post)","DELETE"-->
+                                    <tr>
+                                        <td>AK49</td>
+                                        <td>38%</td>
+                                        <td>0%</td>
+                                        <td>Sativa</td>
+                                        <td>
+                                            <button id="ver" type="button" class="btn btn-primary">Ver Mas</button>
+                                            <button id="edit" type="button" class="btn btn-info">Editar</button>
+                                            <button id="delete" type="button" class="btn btn-danger">Borrar</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>AK49</td>
+                                        <td>38%</td>
+                                        <td>0%</td>
+                                        <td>Sativa</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary">Ver Mas</button>
+                                            <button type="button" class="btn btn-info">Editar</button>
+                                            <button type="button" class="btn btn-danger">Borrar</button>
+                                        </td>
+                                    </tr>
+
+
+
+                                </tbody>
+                            </table>
+                            <nav>
+                                    <br>
+                                    <button id=new type="button" class="btn btn-primary" style="float:right;">Nuevo Registro</button>
+                                   
+                            </nav>
+
+                        </div>
+                    </div>
+                    
+            </div>
+
+
+            
+
+
+
+
+
+
+
+    </body>
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
