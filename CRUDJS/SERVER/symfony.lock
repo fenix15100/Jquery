@@ -71,11 +71,23 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "indaxia/doctrine-orm-transformations": {
+        "version": "2.0.1-stable"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
     "monolog/monolog": {
         "version": "1.23.0"
+    },
+    "nelmio/cors-bundle": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.5",
+            "ref": "7b6cbc842f8cd3d550815247d12294f6f304a8c4"
+        }
     },
     "ocramius/proxy-manager": {
         "version": "2.2.0"

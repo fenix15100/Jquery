@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \Indaxia\OTR\ITransformable;
+use \Indaxia\OTR\Traits\Transformable;
+use \Indaxia\OTR\Annotations\Policy;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TiposRepository")
  */
 class Tipos
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -55,29 +59,6 @@ class Tipos
     }
 
 
-
-    /**
-     * @ORM\OneToMany(targetEntity="Variedades", mappedBy="id_tipo")
-     */
-    private $variedades;
-    public function __construct()
-    {
-        $this->variedades = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    public function addVariedades(Variedades $variedad)
-    {
-        $this->variedades[] = $variedad;
-    }
-    public function SetVariedades(\Doctrine\Common\Collections\ArrayCollection $variedad)
-    {
-        $this->variedades[] = $variedad;
-        return $this;
-    }
-
-    public function getVariedades()
-    {
-        return $this->variedades;
-    }
 
 
 

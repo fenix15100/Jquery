@@ -8,7 +8,7 @@
 
         <script src="jquery-3.2.1.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
+        <script type="text/javascript" src="jquery.ajax-cross-origin.min.js"></script>
         <style>
 
            body{
@@ -33,32 +33,85 @@
 
             
         
-        
+          
+
         
         
         </style>
         <script>
+            
+            $(document).ready(function() {
+
+                //Globals
+
+                var url_api="http://192.168.1.128/SERVER/public/api/cannabis";
+                var data=null;
+                var patron=null;
+                                
+                $.ajax({
+                    type: "GET",
+                    crossOrigin: true,
+                    url: url_api,
+
+                    success: function(json) {
+                        console.log(json);
+                        data=JSON.parse(json);
+                        for(i=0;i<data.length;i++){
+                        
+                       
+                       
+                            $("#tabla").append('<tr> <td>'+data[i].nombre+'</td><td>'+data[i].tHC+'</td><td>'+data[i].cBD+'</td><td>'+data[i].idTipo.tipo+'</td><td><button id="ver'+i+'" type="button" class="btn btn-primary">Ver Mas</button></td><td><button id="edit'+i+'" type="button" class="btn btn-info">Editar</button></td><td><button id="delete'+i+'" type="button" class="btn btn-danger">Borrar</button></td></tr>');
 
 
+
+                        }
+                   
+
+                        
+                    }
+                });
+
+                $("#buscar").keyup(function(){
+                    
+                    patron=$("#buscar").val();
+                    
+                    $("#tabla").empty();
+                        
+                    
+                 
+                    
+
+                    for(i=0;i<data.length;i++){
+                        var nombre=new String();
+                        nombre=data[i].nombre;
+                       
+                        if(nombre.indexOf(patron) !== -1){
+                            $("#tabla").append('<tr> <td>'+data[i].nombre+'</td><td>'+data[i].tHC+'</td><td>'+data[i].cBD+'</td><td>'+data[i].idTipo.tipo+'</td><td><button id="ver'+i+'" type="button" class="btn btn-primary">Ver Mas</button></td><td><button id="edit'+i+'" type="button" class="btn btn-info">Editar</button></td><td><button id="delete'+i+'" type="button" class="btn btn-danger">Borrar</button></td></tr>');
+
+
+                        }else{
+                            continue;
+                        }
+
+                    }
+                   
+
+
+               
+                
+                    
+                });
+
+                
+                
+
+            });
+
         
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    
         
         </script>
     </head>
@@ -84,39 +137,13 @@
                                         <th>THC</th>
                                         <th>CBD</th>
                                         <th>Tipo</th>
-                                        <th>
-                                            <form id=buscarform class="form-inline my-2 my-lg-0">
-                                                <input name="buscar" class="form-control mr-sm-2" type="text" placeholder="Buscar">
-                                                
-                                            </form>
-                                        </th>
+                                        <th> <input id="buscar" class="form-control mr-sm-2" type="text" placeholder="Buscar"></th>
+    
+                                       
                                     </tr>
                                 </thead>
                                 <tbody id="tabla">
-                                    <!-- generar dom dinamicamente con los campos y los botones "VER(Modal  con todos los datos)","UPDATE(Modal ajax post)","DELETE"-->
-                                    <tr>
-                                        <td>AK49</td>
-                                        <td>38%</td>
-                                        <td>0%</td>
-                                        <td>Sativa</td>
-                                        <td>
-                                            <button id="ver" type="button" class="btn btn-primary">Ver Mas</button>
-                                            <button id="edit" type="button" class="btn btn-info">Editar</button>
-                                            <button id="delete" type="button" class="btn btn-danger">Borrar</button>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>AK49</td>
-                                        <td>38%</td>
-                                        <td>0%</td>
-                                        <td>Sativa</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary">Ver Mas</button>
-                                            <button type="button" class="btn btn-info">Editar</button>
-                                            <button type="button" class="btn btn-danger">Borrar</button>
-                                        </td>
-                                    </tr>
+                                    
 
 
 

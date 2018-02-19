@@ -1,0 +1,2 @@
+INSERT INTO cannabis.variedades (id_tipo, id_pais, nombre, tiempo_floracion, interior, exterior, thc, cbd, genetica, description, file) VALUES (2, 1, 'prueba', 33, 0, 1, 34.40, 26.00, 'pepe&elefhant', 'Esta hierba vuelve loco a cualquier ser vivo en la tierra', 'nabo.jpj');
+INSERT INTO cannabis.variedades (id_tipo, id_pais, nombre, tiempo_floracion, interior, exterior, thc, cbd, genetica, description, file) VALUES (3, 5, 'AK49', 60, 0, 1, 34.40, 26.00, 'pepe&elefhant', 'Esta hierba vuelve loco a cualquier ser vivo en la tierra', 'nabo.jpj');
