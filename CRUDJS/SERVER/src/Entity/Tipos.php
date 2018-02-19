@@ -3,9 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use \Indaxia\OTR\ITransformable;
-use \Indaxia\OTR\Traits\Transformable;
-use \Indaxia\OTR\Annotations\Policy;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TiposRepository")
