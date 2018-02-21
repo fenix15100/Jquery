@@ -123,18 +123,85 @@ class CannabisController extends Controller
      */
     public function edit($id){
 
-        /*
         $em = $this->getDoctrine()->getManager();
 
         $variedad = $em->getRepository(Variedades::class)->find($id);
 
-        $em->remove($variedad);
-        $em->flush();*/
-        $request = Request::createFromGlobals();
-        $data=$request->request->get('editform');
+        $variedad->setNombre($_POST['nombre']);
+        $variedad->setTiempoFloracion($_POST['floracion']);
+
+        if(isset($_POST['interior'])) {
+            $variedad->setInterior(true);
+            $variedad->setExterior(false);
+        }elseif (isset($_POST['exterior'])){
+            $variedad->setExterior(true);
+            $variedad->setInterior(false);
+        }
 
 
-        return new Response (var_dump($_REQUEST));
+        $variedad->setTHC($_POST['thc']);
+        $variedad->setCBD($_POST['cbd']);
+        $variedad->setGenetica($_POST['genetica']);
+
+
+        $tipo=$em->getRepository(Tipos::class)->find($_POST['tipo']);
+        $pais=$em->getRepository(Paises::class)->find($_POST['pais']);
+        $variedad->setIdTipo($tipo);
+        $variedad->setIdPais($pais);
+
+        $variedad->setDescription($_POST['descripcion']);
+
+        $em->persist($variedad);
+        $em->flush();
+
+
+
+        return new Response (new Response('OK'));
+
+
+
+    }
+
+    /**
+     * @Route("/cannabis/new", name="cannabis_new")
+     * @Method("POST");
+     */
+    public function newitem($id){
+
+        $em = $this->getDoctrine()->getManager();
+
+        $variedad = new Variedades();
+
+        $variedad->setNombre($_POST['nombre']);
+        $variedad->setTiempoFloracion($_POST['floracion']);
+
+        if(isset($_POST['interior'])) {
+            $variedad->setInterior(true);
+            $variedad->setExterior(false);
+        }elseif (isset($_POST['exterior'])){
+            $variedad->setExterior(true);
+            $variedad->setInterior(false);
+        }
+
+
+        $variedad->setTHC($_POST['thc']);
+        $variedad->setCBD($_POST['cbd']);
+        $variedad->setGenetica($_POST['genetica']);
+
+
+        $tipo=$em->getRepository(Tipos::class)->find($_POST['tipo']);
+        $pais=$em->getRepository(Paises::class)->find($_POST['pais']);
+        $variedad->setIdTipo($tipo);
+        $variedad->setIdPais($pais);
+
+        $variedad->setDescription($_POST['descripcion']);
+
+        $em->persist($variedad);
+        $em->flush();
+
+
+
+        return new Response (new Response('OK'));
 
 
 

@@ -38,7 +38,7 @@
         //Globals
 
         //url de la API rest
-        var url_api = "http://192.168.1.80/SERVER/public/api/cannabis/";
+        var url_api = "http://192.168.123.116/SERVER/public/api/cannabis/";
         //Vaiable que guardara los resultados de la API (JSON)
         var data = null;
         var datapais = null;
@@ -182,7 +182,7 @@
 
                 success: function(json) {
                     console.log(json);
-                    datapais = JSON.parse(json);
+                    datatipo = JSON.parse(json);
 
 
 
@@ -191,6 +191,8 @@
         }
 
         function ver(id) {
+
+           
 
 
             for (i = 0; i < data.length; i++) {
@@ -230,9 +232,27 @@
         }
 
         function edit(id) {
+            var form=$("#editform");
 
-            //Cargar los paises y tipos
+            //Limpio el formulario
+            for(i=0;i<form.length;i++){
 
+                form[i].reset();
+
+
+            }
+
+            //Cargo los select de pais y tipo
+            for(i=0;i<datatipo.length;i++){
+                $("#edittipo").append('<option value="'+datatipo[i].id+'">'+datatipo[i].tipo+'</option>');
+
+            }
+
+            for(i=0;i<datapais.length;i++){
+                $("#editpais").append('<option value="'+datapais[i].id+'">'+datapais[i].pais+'</option>');
+
+            }
+            //Envio los datos del formulario y updateo BD
             $("#editbtn").click(function() {
 
 
@@ -242,8 +262,8 @@
                     crossOrigin: true,
                     url: url_api + "edit/" + id,
                     data: $("#editform").serialize(),
-                    success: function(datadu) {
-                        console.log(datadu)
+                    success: function(data) {
+                        console.log(data)
                         listar();
                     }
                 });
@@ -272,6 +292,45 @@
         }
 
         function nuevo() {
+            var form=$("#newform");
+             //Limpio el formulario
+             for(i=0;i<form.length;i++){
+
+                form[i].reset();
+
+
+            }
+
+             //Cargo los select de pais y tipo
+             for(i=0;i<datatipo.length;i++){
+                $("#newtipo").append('<option value="'+datatipo[i].id+'">'+datatipo[i].tipo+'</option>');
+
+            }
+
+            for(i=0;i<datapais.length;i++){
+                $("#newpais").append('<option value="'+datapais[i].id+'">'+datapais[i].pais+'</option>');
+
+            }
+
+            //Envio los datos del formulario y updateo BD
+            $("#newbtn").click(function() {
+
+
+
+                $.ajax({
+                    type: "POST",
+                    crossOrigin: true,
+                    url: url_api + "new",
+                    data: $("#newform").serialize(),
+                    success: function(data) {
+                        console.log(data)
+                        listar();
+                    }
+                });
+
+            });
+
+
 
 
 
@@ -314,7 +373,7 @@
                 </table>
                 <nav>
                     <br>
-                    <button id="new" type="button" class="btn btn-primary" style="float:right;">Nuevo Registro</button>
+                    <button id="new" type="button" class="btn btn-primary" style="float:right;"  data-toggle="modal" data-target="#newmodal">Nuevo Registro</button>
 
                 </nav>
 
@@ -397,35 +456,38 @@
                         <form id="editform">
                             <label>Nombre</label>
                             <br>
-                            <input name="nombre" id="vernombre" type="text">
+                            <input name="nombre" id="editnombre" type="text">
                             <br>
                             <label>Floracion(Dias)</label>
                             <br>
-                            <input name="floracion" id="verfloracion" type="text">
+                            <input name="floracion" id="editfloracion" type="text">
                             <br>
                             <label>Interior:</label>
-                            <input name="interior" id="verinterior" type="checkbox">
+                            <input name="interior" id="editinterior" type="checkbox">
                             <label>Exterior:</label>
-                            <input name="exterior" id="verexterior" type="checkbox">
+                            <input name="exterior" id="editexterior" type="checkbox">
                             <br>
                             <label>THC</label>
-                            <input name="thc" id="verthc" type="number">
+                            <input name="thc" id="editthc" type="number">
                             <br>
                             <label>CBD</label>
-                            <input name="cbd" id="vercbd" type="number">
+                            <input name="cbd" id="editcbd" type="number">
                             <br>
                             <label>Genetica</label>
-                            <input name="genetica" id="vergenetica" type="text ">
+                            <input name="genetica" id="editgenetica" type="text ">
                             <br>
                             <label>Tipo</label>
-                            <input name="tipo" id="vertipo" type="text">
+                            <select name="tipo" id="edittipo">
+
+                            </select>
                             <br>
                             <label>Pais</label>
-                            <input name="pais" id="verpais" type="text">
+                            <select name="pais" id="editpais" >
+                            </select>
                             <br>
                             <label>Descripcion</label>
                             <br>
-                            <textarea name="descripcion" id="verdescripcion"></textarea>
+                            <textarea name="descripcion" id="editdescripcion"></textarea>
                         </form>
                     </div>
 
@@ -439,6 +501,70 @@
             </div>
         </div>
     </div>
+
+
+    <!--MODAL NEW-->
+
+    
+     <div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Insertar Datos</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true ">&times;</span>
+                              </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <form id="newform">
+                                <label>Nombre</label>
+                                <br>
+                                <input name="nombre" id="newnombre" type="text">
+                                <br>
+                                <label>Floracion(Dias)</label>
+                                <br>
+                                <input name="floracion" id="newfloracion" type="text">
+                                <br>
+                                <label>Interior:</label>
+                                <input name="interior" id="newinterior" type="checkbox">
+                                <label>Exterior:</label>
+                                <input name="exterior" id="newexterior" type="checkbox">
+                                <br>
+                                <label>THC</label>
+                                <input name="thc" id="newthc" type="number">
+                                <br>
+                                <label>CBD</label>
+                                <input name="cbd" id="newcbd" type="number">
+                                <br>
+                                <label>Genetica</label>
+                                <input name="genetica" id="newgenetica" type="text ">
+                                <br>
+                                <label>Tipo</label>
+                                <select name="tipo" id="newtipo">
+    
+                                </select>
+                                <br>
+                                <label>Pais</label>
+                                <select name="pais" id="newpais" >
+                                </select>
+                                <br>
+                                <label>Descripcion</label>
+                                <br>
+                                <textarea name="descripcion" id="newdescripcion"></textarea>
+                            </form>
+                        </div>
+    
+    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="newbtn" type="button" class="btn btn-secondary" data-dismiss="modal">Editar</button>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
