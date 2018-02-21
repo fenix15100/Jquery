@@ -127,8 +127,11 @@ class CannabisController extends Controller
 
         $variedad = $em->getRepository(Variedades::class)->find($id);
 
-        $variedad->setNombre($_POST['nombre']);
-        $variedad->setTiempoFloracion($_POST['floracion']);
+        if(isset($_POST['nombre']))$variedad->setNombre($_POST['nombre']);
+
+
+
+        if(isset($_POST['floracion']))$variedad->setTiempoFloracion($_POST['floracion']);
 
         if(isset($_POST['interior'])) {
             $variedad->setInterior(true);
@@ -139,17 +142,17 @@ class CannabisController extends Controller
         }
 
 
-        $variedad->setTHC($_POST['thc']);
-        $variedad->setCBD($_POST['cbd']);
-        $variedad->setGenetica($_POST['genetica']);
+        if(isset($_POST['thc'])) $variedad->setTHC($_POST['thc']);
+        if(isset($_POST['cbd']))$variedad->setCBD($_POST['cbd']);
+        if(isset($_POST['genetica']))$variedad->setGenetica($_POST['genetica']);
 
 
         $tipo=$em->getRepository(Tipos::class)->find($_POST['tipo']);
         $pais=$em->getRepository(Paises::class)->find($_POST['pais']);
-        $variedad->setIdTipo($tipo);
-        $variedad->setIdPais($pais);
+        if(isset($_POST['tipo']))$variedad->setIdTipo($tipo);
+        if(isset($_POST['pais']))$variedad->setIdPais($pais);
 
-        $variedad->setDescription($_POST['descripcion']);
+        if(isset($_POST['descripcion'])) $variedad->setDescription($_POST['descripcion']);
 
         $em->persist($variedad);
         $em->flush();
@@ -166,7 +169,7 @@ class CannabisController extends Controller
      * @Route("/cannabis/new", name="cannabis_new")
      * @Method("POST");
      */
-    public function newitem($id){
+    public function newitem(){
 
         $em = $this->getDoctrine()->getManager();
 

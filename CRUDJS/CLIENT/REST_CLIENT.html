@@ -234,12 +234,31 @@
         function edit(id) {
             var form=$("#editform");
 
-            //Limpio el formulario
-            for(i=0;i<form.length;i++){
+            for (i = 0; i < data.length; i++) {
 
-                form[i].reset();
+                if (data[i].id == id) {
+                    $("#editnombre").val(data[i].nombre);
+                    $("#editfloracion").val(data[i].tiempoFloracion);
 
+                    if (data[i].interior == true) {
+                        $("#editinterior").prop('checked', true);
+                    } else {
+                        $("#editinterior").prop('checked', false);
+                    }
 
+                    if (data[i].exterior == true) {
+                        $("#editexterior").prop('checked', true);
+                    } else {
+                        $("#editexterior").prop('checked', false);
+                    }
+
+                    $("#editthc").val(data[i].tHC);
+                    $("#editcbd").val(data[i].cBD);
+                    $("#editgenetica").val(data[i].genetica);
+                    $("#edittipo").val(data[i].idTipo.tipo);
+                    $("#editpais").val(data[i].idPais.pais);
+                    $("#editdescripcion").val(data[i].description);
+                }
             }
 
             //Cargo los select de pais y tipo
@@ -255,7 +274,7 @@
             //Envio los datos del formulario y updateo BD
             $("#editbtn").click(function() {
 
-
+                
 
                 $.ajax({
                     type: "POST",
@@ -264,6 +283,7 @@
                     data: $("#editform").serialize(),
                     success: function(data) {
                         console.log(data)
+                        $("#tabla").empty();
                         listar();
                     }
                 });
