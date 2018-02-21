@@ -8,7 +8,7 @@ use App\Entity\Variedades;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
@@ -111,11 +111,34 @@ class CannabisController extends Controller
         $em->remove($variedad);
         $em->flush();
 
-        return $this->list();
+        return new Response("ok");
 
 
 
     }
 
-    
+    /**
+     * @Route("/cannabis/edit/{id}", name="cannabis_edit")
+     * @Method("POST");
+     */
+    public function edit($id){
+
+        /*
+        $em = $this->getDoctrine()->getManager();
+
+        $variedad = $em->getRepository(Variedades::class)->find($id);
+
+        $em->remove($variedad);
+        $em->flush();*/
+        $request = Request::createFromGlobals();
+        $data=$request->request->get('editform');
+
+
+        return new Response (var_dump($_REQUEST));
+
+
+
+    }
+
+
 }

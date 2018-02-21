@@ -50,7 +50,7 @@
 
             //Obtiene todos los registros de la BD y los muestra junto a sus botones de interacion
             listar();
-            //Obtiene de datos de tablas auxiliares para poder llenar de opciones disponibles los formularios (EDIT,NEW)
+            //Obtiene de datos de tablas auxiliares para poder llenar de opciones disponibles en los formularios (EDIT,NEW)
             getpaises();
             gettipos();
 
@@ -104,7 +104,7 @@
                     nombre = data[i].nombre;
 
                     if (nombre.indexOf(patron) !== -1) {
-                        $("#tabla").append('<tr> <td>' + data[i].nombre + '</td><td>' + data[i].tHC + '</td><td>' + data[i].cBD + '</td><td>' + data[i].idTipo.tipo + '</td><td><button id="ver_' + data[i].id + '" type="button" class="btn btn-primary" data-toggle="modal" data-target="#vermodal">Ver Mas</button></td><td><button id="edit_' + data[i].id + '" type="button" class="btn btn-info">Editar</button></td><td><button id="delete_' + data[i].id + '" type="button" class="btn btn-danger">Borrar</button></td></tr>');
+                        $("#tabla").append('<tr> <td>' + data[i].nombre + '</td><td>' + data[i].tHC + '</td><td>' + data[i].cBD + '</td><td>' + data[i].idTipo.tipo + '</td><td><button id="ver_' + data[i].id + '" type="button" class="btn btn-primary" data-toggle="modal" data-target="#vermodal">Ver Mas</button></td><td><button id="edit_' + data[i].id + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#editmodal">Editar</button></td><td><button id="delete_' + data[i].id + '" type="button" class="btn btn-danger">Borrar</button></td></tr>');
 
 
                     } else {
@@ -140,7 +140,7 @@
 
 
 
-                        $("#tabla").append('<tr> <td>' + data[i].nombre + '</td><td>' + data[i].tHC + '</td><td>' + data[i].cBD + '</td><td>' + data[i].idTipo.tipo + '</td><td><button id="ver_' + data[i].id + '" type="button" class="btn btn-primary" data-toggle="modal" data-target="#vermodal">Ver Mas</button></td><td><button id="edit_' + data[i].id + '" type="button" class="btn btn-info">Editar</button></td><td><button id="delete_' + data[i].id + '" type="button" class="btn btn-danger">Borrar</button></td></tr>');
+                        $("#tabla").append('<tr> <td>' + data[i].nombre + '</td><td>' + data[i].tHC + '</td><td>' + data[i].cBD + '</td><td>' + data[i].idTipo.tipo + '</td><td><button id="ver_' + data[i].id + '" type="button" class="btn btn-primary" data-toggle="modal" data-target="#vermodal">Ver Mas</button></td><td><button id="edit_' + data[i].id + '" type="button" class="btn btn-info" data-toggle="modal" data-target="#editmodal">Editar</button></td><td><button id="delete_' + data[i].id + '" type="button" class="btn btn-danger">Borrar</button></td></tr>');
 
 
 
@@ -192,6 +192,7 @@
 
         function ver(id) {
 
+
             for (i = 0; i < data.length; i++) {
 
                 if (data[i].id == id) {
@@ -229,7 +230,28 @@
         }
 
         function edit(id) {
-            alert("edito");
+
+            //Cargar los paises y tipos
+
+            $("#editbtn").click(function() {
+
+
+
+                $.ajax({
+                    type: "POST",
+                    crossOrigin: true,
+                    url: url_api + "edit/" + id,
+                    data: $("#editform").serialize(),
+                    success: function(datadu) {
+                        console.log(datadu)
+                        listar();
+                    }
+                });
+
+            });
+
+
+
 
         }
 
@@ -302,7 +324,7 @@
     </div>
 
 
-    <!--MODALS-->
+    <!--MODAL VEER-->
 
 
     <div class="modal fade" id="vermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -311,7 +333,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Ver Datos</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true ">&times;</span>
                           </button>
                 </div>
                 <div class="modal-body">
@@ -325,9 +347,9 @@
                         <input name="floracion" id="verfloracion" type="text" readonly>
                         <br>
                         <label>Interior:</label>
-                        <input name="interior" id="verinterior" type="checkbox" onclick="return false;">
+                        <input name="interior" id="verinterior" type="checkbox" onclick="return false; ">
                         <label>Exterior:</label>
-                        <input name="exterior" id="verexterior" type="checkbox" onclick="return false;">
+                        <input name="exterior" id="verexterior" type="checkbox" onclick="return false; ">
                         <br>
                         <label>THC</label>
                         <input name="thc" id="verthc" type="number" readonly>
@@ -336,7 +358,7 @@
                         <input name="cbd" id="vercbd" type="number" readonly>
                         <br>
                         <label>Genetica</label>
-                        <input name="genetica" id="vergenetica" type="text" readonly>
+                        <input name="genetica" id="vergenetica" type="text " readonly>
                         <br>
                         <label>Tipo</label>
                         <input name="tipo" id="vertipo" type="text" readonly>
@@ -360,6 +382,66 @@
     </div>
 
 
+    <!--MODAL EDIT-->
+    <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Editar Datos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true ">&times;</span>
+                          </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <form id="editform">
+                            <label>Nombre</label>
+                            <br>
+                            <input name="nombre" id="vernombre" type="text">
+                            <br>
+                            <label>Floracion(Dias)</label>
+                            <br>
+                            <input name="floracion" id="verfloracion" type="text">
+                            <br>
+                            <label>Interior:</label>
+                            <input name="interior" id="verinterior" type="checkbox">
+                            <label>Exterior:</label>
+                            <input name="exterior" id="verexterior" type="checkbox">
+                            <br>
+                            <label>THC</label>
+                            <input name="thc" id="verthc" type="number">
+                            <br>
+                            <label>CBD</label>
+                            <input name="cbd" id="vercbd" type="number">
+                            <br>
+                            <label>Genetica</label>
+                            <input name="genetica" id="vergenetica" type="text ">
+                            <br>
+                            <label>Tipo</label>
+                            <input name="tipo" id="vertipo" type="text">
+                            <br>
+                            <label>Pais</label>
+                            <input name="pais" id="verpais" type="text">
+                            <br>
+                            <label>Descripcion</label>
+                            <br>
+                            <textarea name="descripcion" id="verdescripcion"></textarea>
+                        </form>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="editbtn" type="button" class="btn btn-secondary" data-dismiss="modal">Editar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
 
 
@@ -369,12 +451,6 @@
 
 
 </body>
-
-
-
-
-
-
 
 
 
