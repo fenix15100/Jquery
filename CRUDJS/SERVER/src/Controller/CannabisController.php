@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Paises;
+use App\Entity\Tipos;
 use App\Entity\Variedades;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -46,6 +48,57 @@ class CannabisController extends Controller
 
 
     /**
+     * @Route("/cannabis/listpais", name="cannabis_listpais")
+     * @Method("GET");
+     */
+    public function listpais()
+    {
+        //Obtengo todos los ejemplares de plantas
+        $paises = $this->getDoctrine()
+            ->getRepository(Paises::class)
+            ->findAll();
+
+        //Configuro un Parser a JSON que pueda encodear el array complejo obtenido arriba
+        //(No sirve un simple JSONencode);
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+        //Serializo los datos en JSON y los devuelvo
+        $result =$serializer->serialize($paises, 'json');
+
+
+        $response = new Response($result);
+        return $response;
+    }
+
+
+
+    /**
+     * @Route("/cannabis/listipos", name="cannabis_listtipos")
+     * @Method("GET");
+     */
+    public function listtipos()
+    {
+        //Obtengo todos los ejemplares de plantas
+        $tipos = $this->getDoctrine()
+            ->getRepository(Tipos::class)
+            ->findAll();
+
+        //Configuro un Parser a JSON que pueda encodear el array complejo obtenido arriba
+        //(No sirve un simple JSONencode);
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+        //Serializo los datos en JSON y los devuelvo
+        $result =$serializer->serialize($tipos, 'json');
+
+
+        $response = new Response($result);
+        return $response;
+    }
+
+
+    /**
      * @Route("/cannabis/erase/{id}", name="cannabis_erase")
      * @Method("DELETE");
      */
@@ -63,4 +116,6 @@ class CannabisController extends Controller
 
 
     }
+
+    
 }

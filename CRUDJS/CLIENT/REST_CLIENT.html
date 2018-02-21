@@ -1,291 +1,363 @@
 <html>
 
-    <head>
-        <title>Cannabis DB</title>
+<head>
+    <title>Cannabis DB</title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-        <script src="jquery-3.2.1.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="jquery.ajax-cross-origin.min.js"></script>
-        <style>
-
-           body{
-               width: 100%;
-               height: 100%;
-           }
-            .panel,.panel-info{
-                
-                margin: auto;
-                overflow: auto;
-            }
-
-            .jumbotron{
-                width: 100%;
-                height: 980px;
-
-            }
-
-            th{
-                text-align: center;
-            }
-            .modal-body{
-                overflow: auto;
-            }
-
-            
+    <script src="jquery-3.2.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="jquery.ajax-cross-origin.min.js"></script>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+        }
         
-          
-
+        .panel,
+        .panel-info {
+            margin: auto;
+            overflow: auto;
+        }
         
+        .jumbotron {
+            width: 100%;
+            height: 980px;
+        }
         
-        </style>
-        <script>
+        th {
+            text-align: center;
+        }
+        
+        .modal-body {
+            overflow: auto;
+        }
+    </style>
+    <script>
+        //Globals
 
-              //Globals
+        //url de la API rest
+        var url_api = "http://192.168.1.80/SERVER/public/api/cannabis/";
+        //Vaiable que guardara los resultados de la API (JSON)
+        var data = null;
+        var datapais = null;
+        var datatipo = null;
+        //Variable que almacenara el termino de busqueda de la barra de busqueda
+        var patron = null;
 
-                //url de la API rest
-                var url_api="http://192.168.1.128/SERVER/public/api/cannabis/";
-                //Vaiable que guardara los resultados de la API (JSON)
-                var data=null;
-                //Variable que almacenara el termino de busqueda de la barra de busqueda
-                var patron=null;
-            
-            $(document).ready(function() {
+        $(document).ready(function() {
 
-                //Obtiene todos los registros de la BD y los muestra junto a sus botones de interacion
-                listar();
+            //Obtiene todos los registros de la BD y los muestra junto a sus botones de interacion
+            listar();
+            //Obtiene de datos de tablas auxiliares para poder llenar de opciones disponibles los formularios (EDIT,NEW)
+            getpaises();
+            gettipos();
 
-                //Handle global evento click() para los botones
-                $(document).click(function(event){
-                    $(event.target).closest("button").each(function(){
+            //Handle global evento click() para los botones
+            $(document).click(function(event) {
+                $(event.target).closest("button").each(function() {
 
-                        //Parseando ID y accion
-                        var array=this.id.split("_");
-                        var action=array[0];
-                        var id=array[1];
-                        
-                        //Segun el boton selecionado envio la accion requerida para el registro mas el id del objeto de la BD
-                        switch(action) {
-                            case "ver":
-                                ver(id);
-                                
-                                break;
-                            case "edit":
-                                edit(id);
+                    //Parseando ID y accion
+                    var array = this.id.split("_");
+                    var action = array[0];
+                    var id = array[1];
 
-                                break;
-                            case "delete":
-                                erase(id);
+                    //Segun el boton selecionado envio la accion requerida para el registro mas el id del objeto de la BD
+                    switch (action) {
+                        case "ver":
+                            ver(id);
 
-                                break;
-                            case "new":
-                                nuevo();
-                                
-                                break;
-                            
-                        }
-   
-                    });
-                });
+                            break;
+                        case "edit":
+                            edit(id);
 
+                            break;
+                        case "delete":
+                            erase(id);
 
-               
+                            break;
+                        case "new":
+                            nuevo();
 
-                //Evento que controlara lo escrito en la barra de busqueda y filtrara los resultados en la tabla
-                $("#buscar").keyup(function(){
-                    
-                    patron=$("#buscar").val();
-                    
-                    $("#tabla").empty();
-                        
-                    
-
-                    for(i=0;i<data.length;i++){
-                        var nombre=new String();
-                        nombre=data[i].nombre;
-                       
-                        if(nombre.indexOf(patron) !== -1){
-                            $("#tabla").append('<tr> <td>'+data[i].nombre+'</td><td>'+data[i].tHC+'</td><td>'+data[i].cBD+'</td><td>'+data[i].idTipo.tipo+'</td><td><button id="ver_'+data[i].id+'" type="button" class="btn btn-primary" data-toggle="modal" data-target="#vermodal">Ver Mas</button></td><td><button id="edit_'+data[i].id+'" type="button" class="btn btn-info">Editar</button></td><td><button id="delete_'+data[i].id+'" type="button" class="btn btn-danger">Borrar</button></td></tr>');
-
-
-                        }else{
-                            continue;
-                        }
+                            break;
 
                     }
-                    
+
                 });
+            });
 
-               
 
-            
 
-                
-                
+
+            //Evento que controlara lo escrito en la barra de busqueda y filtrara los resultados en la tabla
+            $("#buscar").keyup(function() {
+
+                patron = $("#buscar").val();
+
+                $("#tabla").empty();
+
+
+
+                for (i = 0; i < data.length; i++) {
+                    var nombre = new String();
+                    nombre = data[i].nombre;
+
+                    if (nombre.indexOf(patron) !== -1) {
+                        $("#tabla").append('<tr> <td>' + data[i].nombre + '</td><td>' + data[i].tHC + '</td><td>' + data[i].cBD + '</td><td>' + data[i].idTipo.tipo + '</td><td><button id="ver_' + data[i].id + '" type="button" class="btn btn-primary" data-toggle="modal" data-target="#vermodal">Ver Mas</button></td><td><button id="edit_' + data[i].id + '" type="button" class="btn btn-info">Editar</button></td><td><button id="delete_' + data[i].id + '" type="button" class="btn btn-danger">Borrar</button></td></tr>');
+
+
+                    } else {
+                        continue;
+                    }
+
+                }
+
+            });
+
+
+
+
+
+
+
 
         });
 
-        function listar(){
-                //Peticion AJAX que obtendra todos los registros de la API y los metera en la tabla principal
-                //Junto con los botones de interacion con el usuario.  
-                $("#tabla").empty();          
-                $.ajax({
-                    type: "GET",
-                    crossOrigin: true,
-                    url: url_api+"list",
+        function listar() {
+            //Peticion AJAX que obtendra todos los registros de la API y los metera en la tabla principal
+            //Junto con los botones de interacion con el usuario.  
+            $("#tabla").empty();
+            $.ajax({
+                type: "GET",
+                crossOrigin: true,
+                url: url_api + "list",
 
-                    success: function(json) {
-                        console.log(json);
-                        data=JSON.parse(json);
-                        for(i=0;i<data.length;i++){
-                        
-                       
-                       
-                            $("#tabla").append('<tr> <td>'+data[i].nombre+'</td><td>'+data[i].tHC+'</td><td>'+data[i].cBD+'</td><td>'+data[i].idTipo.tipo+'</td><td><button id="ver_'+data[i].id+'" type="button" class="btn btn-primary" data-toggle="modal" data-target="#vermodal">Ver Mas</button></td><td><button id="edit_'+data[i].id+'" type="button" class="btn btn-info">Editar</button></td><td><button id="delete_'+data[i].id+'" type="button" class="btn btn-danger">Borrar</button></td></tr>');
+                success: function(json) {
+                    console.log(json);
+                    data = JSON.parse(json);
+                    for (i = 0; i < data.length; i++) {
 
 
 
-                        }
-                   
+                        $("#tabla").append('<tr> <td>' + data[i].nombre + '</td><td>' + data[i].tHC + '</td><td>' + data[i].cBD + '</td><td>' + data[i].idTipo.tipo + '</td><td><button id="ver_' + data[i].id + '" type="button" class="btn btn-primary" data-toggle="modal" data-target="#vermodal">Ver Mas</button></td><td><button id="edit_' + data[i].id + '" type="button" class="btn btn-info">Editar</button></td><td><button id="delete_' + data[i].id + '" type="button" class="btn btn-danger">Borrar</button></td></tr>');
 
-                        
+
+
                     }
-                });
+
+
+
+                }
+            });
 
         }
-        function ver(id){
-            //Seteo campos modal
-            //handle click boton serializo y json papa
-           
+
+
+        function getpaises() {
+            //Peticion AJAX que obtendra todos los registros de la Tabla paises
+
+            $.ajax({
+                type: "GET",
+                crossOrigin: true,
+                url: url_api + "listpais",
+
+                success: function(json) {
+                    console.log(json);
+                    datapais = JSON.parse(json);
+
+
+
+                }
+            });
+        }
+
+        function gettipos() {
+            //Peticion AJAX que obtendra todos los registros de la Tabla tipos
+
+            $.ajax({
+                type: "GET",
+                crossOrigin: true,
+                url: url_api + "listipos",
+
+                success: function(json) {
+                    console.log(json);
+                    datapais = JSON.parse(json);
+
+
+
+                }
+            });
+        }
+
+        function ver(id) {
+
+            for (i = 0; i < data.length; i++) {
+
+                if (data[i].id == id) {
+                    $("#vernombre").val(data[i].nombre);
+                    $("#verfloracion").val(data[i].tiempoFloracion);
+
+                    if (data[i].interior == true) {
+                        $("#verinterior").prop('checked', true);
+                    } else {
+                        $("#verinterior").prop('checked', false);
+                    }
+
+                    if (data[i].exterior == true) {
+                        $("#verexterior").prop('checked', true);
+                    } else {
+                        $("#verexterior").prop('checked', false);
+                    }
+
+                    $("#verthc").val(data[i].tHC);
+                    $("#vercbd").val(data[i].cBD);
+                    $("#vergenetica").val(data[i].genetica);
+                    $("#vertipo").val(data[i].idTipo.tipo);
+                    $("#verpais").val(data[i].idPais.pais);
+                    $("#verdescripcion").val(data[i].description);
+                }
+
+
+
+
+
+
+            }
+
 
         }
 
-        function edit(id){
+        function edit(id) {
             alert("edito");
-            
+
         }
 
 
         //Borra el elemento selecionado de la BD y actualiza la vista
-        function erase(id){
+        function erase(id) {
 
             $.ajax({
-                    type: "DELETE",
-                    crossOrigin: true,
-                    url: url_api+"erase/"+id,
-                    success: function() {
-                        listar();
-                    }
-                });
-            
-            
+                type: "DELETE",
+                crossOrigin: true,
+                url: url_api + "erase/" + id,
+                success: function() {
+                    listar();
+                }
+            });
+
+
         }
 
-        function nuevo(){
-            
-            
-           
+        function nuevo() {
+
+
+
         }
-            
-        
-
-        
-        
+    </script>
+</head>
 
 
-    
-       
+<body>
+    <div class="jumbotron">
 
-        
-        
-        
-        
-    
-        
-        </script>
-    </head>
+        <div class="panel panel-info">
 
 
-    <body>
-            <div class="jumbotron">
-
-                    <div class="panel panel-info">
-                            
-                            
-                        <div class="panel-heading">
-                            
-                            
-                        </div>
-
-                        <div class="table-responsive">
-                            <table id="lista" class="table table-hover table-condensed table-extra-condensed table-bordered" style="text-align:center">
-                                <thead>
-                                   
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>THC</th>
-                                        <th>CBD</th>
-                                        <th>Tipo</th>
-                                        <th> <input id="buscar" class="form-control mr-sm-2" type="text" placeholder="Buscar"></th>
-    
-                                       
-                                    </tr>
-                                </thead>
-                                <tbody id="tabla">
-                                    
+            <div class="panel-heading">
 
 
-
-                                </tbody>
-                            </table>
-                            <nav>
-                                    <br>
-                                    <button id=new type="button" class="btn btn-primary" style="float:right;">Nuevo Registro</button>
-                                   
-                            </nav>
-
-                        </div>
-                    </div>
-                    
             </div>
 
+            <div class="table-responsive">
+                <table id="lista" class="table table-hover table-condensed table-extra-condensed table-bordered" style="text-align:center">
+                    <thead>
 
-            <!--MODALS-->
+                        <tr>
+                            <th>Nombre</th>
+                            <th>THC</th>
+                            <th>CBD</th>
+                            <th>Tipo</th>
+                            <th> <input id="buscar" class="form-control mr-sm-2" type="text" placeholder="Buscar"></th>
 
 
-            <div class="modal fade" id="vermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Ver Datos</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </tr>
+                    </thead>
+                    <tbody id="tabla">
+
+
+
+
+                    </tbody>
+                </table>
+                <nav>
+                    <br>
+                    <button id="new" type="button" class="btn btn-primary" style="float:right;">Nuevo Registro</button>
+
+                </nav>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--MODALS-->
+
+
+    <div class="modal fade" id="vermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Ver Datos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="image" style="margin:auto;">
-                            <br>
-                            <label>Nombre</label>
-                            <br>
-                            <input type="text">
-                            <br>
-                            <label>Floracion(Dias)</label>
-                            <input type="text">
-                            
-                          
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          
-                        </div>
-                      </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <br>
+                        <input name="nombre" id="vernombre" type="text" readonly>
+                        <br>
+                        <label>Floracion(Dias)</label>
+                        <br>
+                        <input name="floracion" id="verfloracion" type="text" readonly>
+                        <br>
+                        <label>Interior:</label>
+                        <input name="interior" id="verinterior" type="checkbox" onclick="return false;">
+                        <label>Exterior:</label>
+                        <input name="exterior" id="verexterior" type="checkbox" onclick="return false;">
+                        <br>
+                        <label>THC</label>
+                        <input name="thc" id="verthc" type="number" readonly>
+                        <br>
+                        <label>CBD</label>
+                        <input name="cbd" id="vercbd" type="number" readonly>
+                        <br>
+                        <label>Genetica</label>
+                        <input name="genetica" id="vergenetica" type="text" readonly>
+                        <br>
+                        <label>Tipo</label>
+                        <input name="tipo" id="vertipo" type="text" readonly>
+                        <br>
+                        <label>Pais</label>
+                        <input name="pais" id="verpais" type="text" readonly>
+                        <br>
+                        <label>Descripcion</label>
+                        <br>
+                        <textarea name="descripcion" id="verdescripcion" readonly></textarea>
                     </div>
-                  </div>
 
 
-            
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -293,7 +365,10 @@
 
 
 
-    </body>
+
+
+
+</body>
 
 
 
