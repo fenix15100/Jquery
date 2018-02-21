@@ -47,6 +47,7 @@
         var patron = null;
 
         $(document).ready(function() {
+            
 
             //Obtiene todos los registros de la BD y los muestra junto a sus botones de interacion
             listar();
@@ -128,6 +129,7 @@
             //Peticion AJAX que obtendra todos los registros de la API y los metera en la tabla principal
             //Junto con los botones de interacion con el usuario.  
             $("#tabla").empty();
+           
             $.ajax({
                 type: "GET",
                 crossOrigin: true,
@@ -232,6 +234,7 @@
         }
 
         function edit(id) {
+           
             var form=$("#editform");
 
             for (i = 0; i < data.length; i++) {
@@ -283,8 +286,8 @@
                     data: $("#editform").serialize(),
                     success: function(data) {
                         console.log(data)
-                        $("#tabla").empty();
-                        listar();
+                        
+                        setTimeout(listar(),5000)
                     }
                 });
 
