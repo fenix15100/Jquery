@@ -1,11 +1,1 @@
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217113209');
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217115131');
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217131914');
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217132458');
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217165912');
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217170403');
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217170616');
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217171211');
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217171524');
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217171713');
-INSERT INTO cannabis.migration_versions (version) VALUES ('20180217171815');
+INSERT INTO cannabis.migration_versions (version) VALUES ('20180221095233');
