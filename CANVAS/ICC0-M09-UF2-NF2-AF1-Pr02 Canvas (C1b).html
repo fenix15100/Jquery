@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pr02</title>
+
+
+
+    <script>
+
+        window.onload = function(){
+
+            var ctx=getCanvas("mycanvas");
+            
+            if(ctx){
+                alert("OK");
+
+            }else{
+                alert("No obtuve el canvas");
+            }
+
+
+
+
+        }
+
+        function getCanvas(id) {
+
+            var lienzo = document.getElementById(id);
+            if(lienzo && lienzo.getContext()){
+                var ctx=lienzo.getContext("2d");
+                if(ctx)return ctx;
+            }else return false;
+
+        }
+
+
+
+
+    </script>
+</head>
+<body>
+
+    <canvas id="mycanvas" width="500" height="500" style="margin: auto"></canvas>
+
+</body>
+</html>
