@@ -21,12 +21,22 @@
         window.onload = function(){
 
             var ctx=getCanvas("mycanvas");
+            var diagonal=0;
+            var diagonal2=250;
+
 
             if(ctx){
-                ctx.fillStyle='#6666FF';
-                ctx.fillRect(0,0,100,100);
-                ctx.fillStyle='yellow';
-                ctx.fillRect(50,50,100,100);
+
+                for(i=0;i<11;i++){
+                    ctx.fillStyle='dodgerblue';
+                    ctx.fillRect(diagonal,diagonal,10,10);
+                    diagonal+=22.72;
+                    diagonal2-=22.72;
+                    ctx.strokeStyle='purple';
+                    ctx.strokeRect(diagonal2,diagonal-22.72,10,10)
+
+                }
+
 
 
 
@@ -58,7 +68,7 @@
 </head>
 <body>
 
-    <canvas id="mycanvas" width="500" height="500"></canvas>
+<canvas id="mycanvas" width="500" height="500"></canvas>
 
 </body>
 </html>
