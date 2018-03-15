@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PR09</title>
+
+
+
+
+    <style>
+
+        #mycanvas{
+            position: absolute;
+            left: 30%;
+            border: solid 2px black;
+        }
+
+
+    </style>
+
+
+
+    <script>
+
+        window.onload = function() {
+
+            var ctx = getCanvas("mycanvas");
+            var canvas=document.getElementById("mycanvas");
+            var tam=20;
+
+            if (ctx) {
+
+                for (i = 2; i < canvas.height; i+=tam) {
+
+                    for(j=2;j<canvas.width;j+=tam){
+                        var red=randomRGB(0,256);
+                        var green=randomRGB(0,256);
+                        var blue=randomRGB(0,256);
+                        ctx.strokeStyle="rgb("+red+","+green+","+blue+")";
+                        ctx.strokeRect(i,j,tam/2,tam/2);
+
+
+                    }
+
+                }
+
+
+            } else {
+                alert("No obtuve el canvas");
+            }
+
+
+        };
+
+        function randomRGB(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+
+        function getCanvas(identificador) {
+
+            var lienzo = document.getElementById(identificador);
+            if(lienzo && lienzo.getContext("2d")){
+                var ctx=lienzo.getContext("2d");
+                if(ctx)return ctx;
+            }else return false;
+
+        }
+
+
+
+
+
+    </script>
+</head>
+<body>
+
+<canvas id="mycanvas" width="500" height="500"></canvas>
+
+
+</body>
+</html>

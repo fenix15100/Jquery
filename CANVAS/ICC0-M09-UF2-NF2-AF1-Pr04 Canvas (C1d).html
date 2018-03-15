@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pr03</title>
+    <style>
+
+        #mycanvas{
+            position: absolute;
+            left: 30%;
+            border: solid 2px black;
+        }
+
+
+    </style>
+
+
+
+    <script>
+
+        window.onload = function(){
+
+            var ctx=getCanvas("mycanvas");
+            var diagonal=0;
+            var diagonal2=250;
+
+
+            if(ctx){
+
+                for(i=0;i<11;i++){
+                    ctx.fillStyle='red';
+                    ctx.fillRect(diagonal,diagonal,10,10);
+                    diagonal+=22.72;
+                    diagonal2-=22.72;
+                    ctx.strokeStyle='yellow';
+                    ctx.strokeRect(diagonal2,diagonal-22.72,10,10)
+
+                }
+
+
+            }else{
+                alert("No obtuve el canvas");
+            }
+
+
+
+            var borrado=document.getElementById("borrar").onclick = function(){
+
+                ctx.clearRect(0,0,125,250);
+
+
+            }};
+
+
+
+        function getCanvas(identificador) {
+
+            var lienzo = document.getElementById(identificador);
+            if(lienzo && lienzo.getContext("2d")){
+                var ctx=lienzo.getContext("2d");
+                if(ctx)return ctx;
+            }else return false;
+
+        }
+
+
+
+
+    </script>
+</head>
+<body>
+
+<canvas id="mycanvas" width="500" height="500"></canvas>
+<a href="#" id="borrar">Borrado Parcial</a>
+
+</body>
+</html>

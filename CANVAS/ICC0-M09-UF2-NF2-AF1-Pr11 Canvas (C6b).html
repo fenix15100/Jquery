@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PR11</title>
+
+
+
+
+    <style>
+
+        #mycanvas{
+            position: absolute;
+            left: 30%;
+            border: solid 2px black;
+        }
+
+
+    </style>
+
+
+
+    <script>
+
+        window.onload = function() {
+
+           inicio();
+
+
+        };
+
+        function randomRGB(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+
+        function getCanvas(identificador) {
+
+            var lienzo = document.getElementById(identificador);
+            if(lienzo && lienzo.getContext("2d")){
+                var ctx=lienzo.getContext("2d");
+                if(ctx)return ctx;
+            }else return false;
+
+        }
+
+
+        function run() {
+            var ctx = getCanvas("mycanvas");
+            var canvas=document.getElementById("mycanvas");
+            var tam=5;
+
+            if (ctx) {
+
+                for (i = 0; i < canvas.height; i+=tam) {
+
+                    for(j=0;j<canvas.width;j+=tam){
+                        var sad=randomRGB(0,256);
+                        ctx.fillStyle="rgb("+sad+","+sad+","+sad+")";
+                        ctx.fillRect(i,j,tam,tam);
+
+
+                    }
+
+                }
+
+            } else {
+                alert("No obtuve el canvas");
+            }
+
+        }
+
+        function inicio() {
+            var x=0;
+            if(x==0){
+                x = setInterval( function(){run();},500);
+            } else{
+                clearInterval(x);
+                x=0;
+            }
+        }
+
+
+
+
+
+
+    </script>
+</head>
+<body>
+
+<canvas id="mycanvas" width="500" height="500"></canvas>
+
+
+</body>
+</html>
