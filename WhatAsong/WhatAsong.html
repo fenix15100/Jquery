@@ -1,25 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+
+<!--Este HTML simulara la vista devuelta por Twig desde Symfony -->
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>WhatAsong</title>
     <style>
 
-        #mycanvas{
-            position: absolute;
-            left: 30%;
-            border: solid 2px black;
-        }
+
 
 
     </style>
 
+    <!--Carga de contenido dinamico controlado por el servidor-->
+    <script src="jquery-3.2.1.js"></script>
+    <script src="ModelJuego.js"></script>
+    <script src="WhatASong.js"></script>
 
-    <script src="Juego.js"></script>
 </head>
 <body>
 
-<canvas id="mycanvas" width="500" height="500"></canvas>
+<!--ID de la partida a obtener, la usa nuestro JS para obtener la partida por ajax-->
+<input hidden id="IDPARTIDA" value="http://urlmagica.com"/>
+
+
 
 </body>
 </html>
