@@ -94,7 +94,7 @@ $(document).ready(function () {
     $(debug).css("margin-left","auto");
     $(debug).css("margin-right","auto");
     document.body.appendChild(debug);
-    
+
     //Dibujo la ventana de configuracion;
     configGameWindows();
     //Evento que iniciara el juego
