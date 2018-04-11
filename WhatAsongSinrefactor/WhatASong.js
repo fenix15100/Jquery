@@ -2,11 +2,18 @@
 
 //Globals
 var assets="./assets/Tematicas/Granja/";
+
+//Variable que contiene la ID del sonido a acertar
 var elecion=null;
+
+//Objetos que se deberian obtener por ajax con los metodos de ModelJuego.js
 var partida=null;
 var dataLibrary=[];
+
+//Bucle Interval utilizado por timers()
 var x=null;
 
+//Carga manual del objeto partida
 var ObjPartida={};
 ObjPartida.id_partida=1;
 ObjPartida.tiempoReaccion=0;
@@ -27,10 +34,10 @@ ObjPartida.imagenesIniciales=null;
 ObjPartida.imagenesFinales=null;
 
 partida=new Partida(ObjPartida);
-console.log(partida);
 
 
-//Carga manual de objetos media
+
+//Carga manual de la libreria de Assets
 ObjMedia1={};
 ObjMedia1.idMedia=1;
 ObjMedia1.url_img=assets+"Caballo/Caballo.png";
@@ -62,44 +69,27 @@ dataLibrary.push(new Media(ObjMedia2));
 dataLibrary.push(new Media(ObjMedia3));
 dataLibrary.push(new Media(ObjMedia4));
 
-console.log(dataLibrary);
 
-//Chivato para parar el juego
-var finpartida=false;
-
+//Indica la ronda (Maximo 10 rondas)
+var rondas=10;
 
 //Main
 $(document).ready(function () {
-
-
-
-    //Creo mi contenedor (Tanto si es DIV como CANVAS) y lo añado al body
-    var container=document.createElement("div");
-    container.id="container";
-    $(container).css("width", "800");
-    $(container).css("height", "600");
-    $(container).css("border","5px gray dotted");
-    $(container).css("margin-left","auto");
-    $(container).css("margin-right","auto");
-    document.body.appendChild(container);
-
-
-    //Debug partida
-
-    var debug=document.createElement("div");
-    debug.id="debug";
-    $(debug).css("width", "300");
-    $(debug).css("height", "300");
-    $(debug).css("border","5px gray dotted");
-    $(debug).css("margin-left","auto");
-    $(debug).css("margin-right","auto");
-    document.body.appendChild(debug);
-
+    //Imprimo contenedor principal
+    drawcontainer();
     //Dibujo la ventana de configuracion;
     configGameWindows();
+    //Imprimo ventana de debug
+    debug();
+
     //Evento que iniciara el juego
     $("#start").click(function () {
+        //Seteo el objeto partida con el Nivel y tematica selecionados
+        partida.nivel=$("#Nivel").val();
+        partida.tematica=$("#Tematica").val();
+        //Inicio el Juego
         start();
+        //Lanzo mi cazador de eventos
         stadistics();
 
     });
@@ -110,9 +100,58 @@ $(document).ready(function () {
 });
 
 
+function drawcontainer() {
+    //Creo mi contenedor (Tanto si es DIV como CANVAS) y lo añado al body
+    var container=document.createElement("div");
+    container.id="container";
+    $(container).css("width", "800");
+    $(container).css("height", "600");
+    $(container).css("border","5px gray dotted");
+    $(container).css("margin-left","auto");
+    $(container).css("margin-right","auto");
+    document.body.appendChild(container);
 
+}
+
+
+function configGameWindows() {
+
+    //Dibujo en pantalla ventana de configuracion del juego
+    var config=document.createElement("div");
+    config.id="config";
+    $(config).css("width", "400");
+    $(config).css("height", "300");
+    $(config).css("background-color","#B8B8B8");
+    $(config).css("margin-left","auto");
+    $(config).css("margin-right","auto");
+    $(config).css("margin-top","120px");
+    $(config).css("text-aling","center");
+
+    //Se cargara dinamicamente con datos del servidor
+    $(config).html('<center><label>Nivel</label><br><select id="Nivel"><option value="1">Nivel 1</option></select><br><label>Tematica</label><br><select id="Tematica"><option value="1">Granja</option></select><br><br><br><button id="start">Comenzar</button></center>');
+    $(config).appendTo("#container");
+
+}
+
+function debug() {
+    //Imprime un Div monitorizando las variables de la partida
+    var debug=document.createElement("div");
+    debug.id="debug";
+    $(debug).css("width", "300");
+    $(debug).css("height", "300");
+    $(debug).css("border","5px gray dotted");
+    $(debug).css("margin-left","auto");
+    $(debug).css("margin-right","auto");
+    document.body.appendChild(debug);
+}
 function stadistics() {
+    //Controla las estadisticas, escuchando los eventos del raton y el teclado
+    mouseEvent();
+    keyboardEvent();
+}
 
+
+function mouseEvent() {
 
     //Handle global evento click() para las imagenes
     $(document).click(function(event) {
@@ -137,6 +176,7 @@ function stadistics() {
 
                 if(id_sonido==this.id){
                     partida.aciertos++;
+                    rondas--;
                     clearInterval(x);
                     start();
                 }
@@ -148,12 +188,59 @@ function stadistics() {
 
         });
     });
+}
+
+function keyboardEvent() {
+
+
+    //HAcer que vaya por teclado XD
+
+
+}
+
+function start() {
+    if(rondas<=0){
+        fin();
+    }else {
+        //Mezclo los assets
+        dataLibrary=shuffle(dataLibrary);
+        //Saco 3 elementos
+        round=dataLibrary.slice(0,3);
+
+        //Los imprimo
+        imprimirAssets(round);
+        //Controlo el tiempo
+        timers();
+    }
+
+
+}
+
+function fin() {
+    $("#container").empty();
+
+    var fin=document.createElement("div");
+    fin.id="fin";
+    $(fin).css("width", "400");
+    $(fin).css("height", "300");
+    $(fin).css("background-color","#B8B8B8");
+    $(fin).css("margin-left","auto");
+    $(fin).css("margin-right","auto");
+    $(fin).css("margin-top","120px");
+    $(fin).css("text-aling","center");
+
+    //Faltaria un evento que controlase el boton e envie el objeto partida al servidor
+    $(fin).html('<center></center><h1>Partida finalizada</h1><br><br><button>Enviar datos</button></center>');
+    $(fin).appendTo("#container");
 
 }
 
 function imprimirAssets(round) {
 
+    //Borro la pantalla
     $(container).empty();
+
+    //Recorro el array y dibujo los assets y los controles adicionales
     round.forEach(function (value,key) {
 
 
@@ -189,6 +276,7 @@ function imprimirAssets(round) {
 
     });
 
+    //Elijo el sonido a acertar y genero el boton
     elecion=getRandomArbitrary(0,2);
 
     var playicon=document.createElement("img");
@@ -210,24 +298,10 @@ function imprimirAssets(round) {
 
 }
 
-function configGameWindows() {
-
-    //TODO Dibujar en el DOM Ventana de configuracion, permite selecionar nivel y tematica Rellenar los dos menus con los datos recibidos del metodo Partida.getAllAvailableConfig(url)
-    //Por defecto vendra ya seteado con la tematica y nivel del objeto partida
-    //TODO Se ejecutara como primera instrucion del document ready del script, el script debera parar la ejecucion hasta que se clicque en el boton aceptar(Controlar con evento, el id del boton sera "start")
-    //TODO si se cambia el nivel y tematica por defecto deberemos setear esos canvios en nuestro objeto partida
-
-}
 
 
-function start() {
 
-    dataLibrary=shuffle(dataLibrary);
-    round=dataLibrary.slice(0,3);
-    imprimirAssets(round);
-    timers();
 
-}
 
 function timers() {
 
@@ -246,9 +320,12 @@ function timers() {
 
 
 
+//Tipycall random int
 function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+//Funcion de un pavo porque la mierda de JS no tiene un puto shuffle
 function shuffle(arra1) {
     var ctr = arra1.length, temp, index;
 
