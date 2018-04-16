@@ -155,6 +155,7 @@ function mouseEvent() {
 
     //Handle global evento click() para las imagenes
     $(document).click(function(event) {
+        
         $(event.target).closest("img").each(function() {
 
             //Control Clicks y tiempo de reacion
