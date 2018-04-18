@@ -21,6 +21,7 @@ const colores=[null,'#FFD700','#8A2BE2','#00FF7F','#FF1493','#FF0000','#00BFFF',
 //Variables utilizadas por la funcion updateframe()
 //Contador de caida de una pieza hacia abajo
 let dropCounter=0;
+
 //Segundos en el que cae una pieza hacia abajo
 let dropInterval=1000;
 let lasttime=0;
@@ -343,11 +344,45 @@ document.addEventListener('keydown', function (event) {
 
 });
 
-//Las ejecutamos para que nos de la primera pieza, y la puntuacion inicial despues se llama desde el bucle
-jugadorReset();
-punticos();
-//Main Loop
-updateframe();
+//Control rotacion con raton
+
+document.addEventListener('mousedown', function (event) {
+
+    if (event.button===0 && jugador.matriz!==null) {
+        jugadorRotate(-1);
+    }
+
+
+
+});
+
+//Trigger de Inicio del juego
+document.getElementById('start').onclick=function () {
+    document.getElementById('music').play();
+    //Borramos el tablero y reseteamos los puntos y los updateamos por pantalla
+    jugador.puntos=0;
+    windowsGame.forEach(function (fila) {
+        fila.fill(0);
+        punticos();
+
+
+    });
+
+
+    //Obtenemos la primera pieza
+    jugadorReset();
+    //Cargamos dificultad
+    let dificultad = document.getElementById("dificultad");
+    let value = dificultad.options[dificultad.selectedIndex].value;
+    let text = dificultad.options[dificultad.selectedIndex].value;
+    dropInterval=text;
+    //Main Loop
+    updateframe();
+
+
+};
+
+
 
 
 

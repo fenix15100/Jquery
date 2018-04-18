@@ -15,16 +15,32 @@
 
         #Lienzo{
             border: solid white 4px;
-            height: 90vh;
+            height: 70vh;
 
         }
+
+
+
+
+
 
     </style>
 
 </head>
 <body>
-    <div id="Puntos"></div>
+    <div id="Puntos"><img src="foto.png" width="300" height="150"></div>
+
+
     <canvas id="Lienzo" width="240" height="400"></canvas>
+
+    <br>
+    <select id="dificultad">
+        <option value="2000">Facil</option>
+        <option value="1000" selected="selected">Normal</option>
+        <option value="100">EresGilipollas</option>
+    </select>
+    <button id="start">Comenzar</button>
+    <audio id=music src="tetris.mp3"></audio>
     <script src="Tetris.js"></script>
 </body>
 </html>
