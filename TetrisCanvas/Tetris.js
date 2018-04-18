@@ -1,5 +1,7 @@
 const canvas=document.getElementById('Lienzo');
 const context=canvas.getContext('2d');
+let maxscore=0;
+
 
 context.scale(20,20);
 
@@ -139,6 +141,7 @@ function dibujar() {
     context.fillRect(0,0,canvas.width,canvas.height);
     //Dibuja tablero
     dibujaMatriz(windowsGame,{x:0,y:0});
+    
     //Dibuja pieza
     dibujaMatriz(jugador.matriz,jugador.pos);
 }
@@ -213,6 +216,7 @@ function limpiaLinea() {
         let filacount=1;
         //La puntuacion basica son 10 puntos
         jugador.puntos+=filacount*10;
+        maxscore=jugador.puntos;
         //Por cada fila borrada a la vez se multiplica por 2 la puntuacion
         filacount*=2;
 
@@ -249,6 +253,10 @@ function jugadorDrop() {
 
 function jugadorReset() {
     const piezas='ILJOTSZ';
+
+  
+
+   
     jugador.matriz=crearPieza(piezas[piezas.length*Math.random()| 0]);
     jugador.pos.y=0;
     jugador.pos.x=(windowsGame[0].length/2|0)-(jugador.matriz[0].length/2|0);
@@ -303,6 +311,8 @@ function jugadorRotate(direction) {
 //Bucle main del juego, estabiliza el framerate y utiliza esos calculos para que la pieza
 //baje hacia abajo en cada Frame
 function updateframe(time = 0) {
+
+    
     const deltatime=time-lasttime;
     lasttime=time;
     dropCounter+=deltatime;
@@ -320,7 +330,7 @@ function updateframe(time = 0) {
 //Autoexplicable XD
 function punticos() {
 
-    document.getElementById('Puntos').innerText=jugador.puntos;
+    document.getElementById('Puntos').innerText='SCORE: '+jugador.puntos+' MAX SCORE: '+maxscore;
 
 }
 
